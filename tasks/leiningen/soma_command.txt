@@ -1,0 +1,1 @@
+(defsomacmd %s "classpath:%s")
