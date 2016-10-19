@@ -1,0 +1,30 @@
+language: clojure
+lein: lein
+script: lein do clean, test, jar
+jdk:
+  - oraclejdk8
+before_deploy:
+  - lein do clean, uberjar, tar
+  - export DPCTL_UBERJAR_FILE=$(ls $TRAVIS_BUILD_DIR/target/dpctl-standalone*.jar)
+  - export DPCTL_TAR_FILE=$(ls $TRAVIS_BUILD_DIR/target/dpctl-*.tar.gz)
+deploy:
+  - provider: script
+    script: lein deploy
+    skip_cleanup: true
+    on:
+      repo: dpctl/dpctl
+      all_branches: true
+      tags: true
+  - provider: releases
+    api_key:
+      secure: mCcv8kmQqQZ5RVNtQnKCe3sqsN6ZajYq3qEyl+d/lMHTJ7M6PtoUplmaC+AQtQU85x1+LTjM+KZW/S8zf1bB8Y9FWqW7briE7onbu65Zn3Z1kMFzrVYR3QRtkacJwtU0Ft40HxOB08Pszf1JRrbXLuPp9E572jD0QhlLjNnKuVL2VEmU0SjlQyMJF95/Tgfy94CIEV4QE/l55OQsOultoZweieEj1v7ABOzxClJYRcu4edwa4PqhkY/HeLelmHRwRwaP8XuUhay0gxfUv86+LXnBt5/tlv53LU0cK8K59HQ++OUZv369BaZPxn+nnTGrGDmTmG4vw+IkjWHmhfwn0slBEGl4nSs7/Ax+ddKwfMaunt8cXt5WydoVfKxGd1rCWs0DEWH/txRL9F0w9v31GsjqvJvcLZYnwAfjC6sXWrzkrPc3WpptQPufn3y3kPkZkaaSsL9VF2Vh08CBJ4wxzMyUP3ilZmGtIYv1YZsUOZhfJUEfAuaymhVor6hRy0lgH0OPyw6mHSvGqDFX5u6rhhKkzDji/as1cKCqpTkaOhUqVsp01KrEbPfhW+pN4UQycmL5jt92KBZsOwQ3OPgwDcuTwMkqK7oNkRUAMuv6LgCh0GrGeg9o1jGK+1/p420fmmhQOF/awFUbqsmATGhpAdL7M+IVbSfaMqJJNwWxvVo=
+    file_glob: true
+    file:
+      - "${DPCTL_UBERJAR_FILE}"
+      - "${DPCTL_TAR_FILE}"
+    overwrite: true
+    skip_cleanup: true
+    on:
+      repo: dpctl/dpctl
+      all_branches: true
+      tags: true
