@@ -6,8 +6,7 @@
             [org.dpctl.logger :as logger]
             [org.dpctl.config :as config]
             [org.dpctl.cmd-engine :as engine])
-  (:import (java.util Properties)
-           (clojure.lang ExceptionInfo))
+  (:import (java.util Properties))
   (:gen-class))
 
 (def cli-options
@@ -105,6 +104,5 @@
           (empty? arguments) (main-help summary)
           (:help options) (command-help summary (first arguments) (rest arguments))
           :else (engine/execute (first arguments) (rest arguments))))
-      (catch ExceptionInfo exception (logger/error-exception-info exception))
       (catch Exception exception (logger/error-exception exception))
       (finally (logger/debug "Execution time: %.3f sec" (/ (double (- (System/nanoTime) start-time)) 1000000000.0))))))

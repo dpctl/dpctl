@@ -1,6 +1,7 @@
 (ns org.dpctl.logger
   (:require [clojure.string :as str]
-            [clojure.stacktrace :as stacktrace]))
+            [clojure.stacktrace :as stacktrace])
+  (:import (clojure.lang ExceptionInfo)))
 
 (def log-levels [:error :warn :info :debug :trace])
 
@@ -62,6 +63,7 @@
   "Log exception"
   [level exception]
   (assert (keyword? level))
+  (assert (instance? Exception exception))
   (when (.getMessage exception)
     (when (@log-level #{:debug :trace})
       (print (format "[%s] " (name level))))
@@ -70,7 +72,19 @@
       (= @log-level :warn) (println (.getMessage exception))
       (= @log-level :info) (println (.getMessage exception))
       (= @log-level :debug) (stacktrace/print-stack-trace exception)
-      (= @log-level :trace) (stacktrace/print-cause-trace exception))))
+      (= @log-level :trace) (stacktrace/print-cause-trace exception)))
+  (when (instance? ExceptionInfo exception)
+    (let [d (ex-data exception)]
+      (doseq [i (:error d)]
+        (error i))
+      (doseq [i (:warn d)]
+        (warn i))
+      (doseq [i (:info d)]
+        (info i))
+      (doseq [i (:debug d)]
+        (debug i))
+      (doseq [i (:trace d)]
+        (trace i)))))
 
 (defn error-exception
   "Log an exception with error log level"
@@ -101,49 +115,3 @@
   [exception]
   (when (@log-level #{:trace})
     (log-exception :trace exception)))
-
-(defn log-exception-info
-  "Log exception info"
-  [level exception]
-  (log-exception level exception)
-  (let [d (ex-data exception)]
-    (doseq [i (:error d)]
-      (error i))
-    (doseq [i (:warn d)]
-      (warn i))
-    (doseq [i (:info d)]
-      (info i))
-    (doseq [i (:debug d)]
-      (debug i))
-    (doseq [i (:trace d)]
-      (trace i))))
-
-(defn error-exception-info
-  "Log an exception info with error log level"
-  [exception]
-  (when (@log-level #{:error :warn :info :debug :trace})
-    (log-exception-info :error exception)))
-
-(defn warn-exception-info
-  "Log an exception info with warn log level"
-  [exception]
-  (when (@log-level #{:warn :info :debug :trace})
-    (log-exception-info :warn exception)))
-
-(defn info-exception-info
-  "Log an exception info with info log level"
-  [exception]
-  (when (@log-level #{:info :debug :trace})
-    (log-exception-info :info exception)))
-
-(defn debug-exception-info
-  "Log an exception info with debug log level"
-  [exception]
-  (when (@log-level #{:debug :trace})
-    (log-exception-info :debug exception)))
-
-(defn trace-exception-info
-  "Log an exception info with tace log level"
-  [exception]
-  (when (@log-level #{:trace})
-    (log-exception-info :trace exception)))
