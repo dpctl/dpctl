@@ -31,7 +31,7 @@
   :plugins [[lein-bin "0.3.5"]
             [lein-cljfmt "0.5.6"]
             [lein-tar "3.3.0"]
-            [lein-cloverage "1.0.8"]]
+            [lein-cloverage "1.0.9"]]
   :tar {:uberjar false
         :format :tar-gz}
   :release-tasks [["vcs" "assert-committed"]
