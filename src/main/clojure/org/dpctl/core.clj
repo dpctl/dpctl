@@ -76,12 +76,15 @@
 (defn main-help
   [options-summary]
   (let [usage-file (io/resource "org/dpctl/help/main.txt")]
-    (logger/info (slurp usage-file) options-summary "TODO: Implement command-list")))
+    (logger/info (slurp usage-file) options-summary (engine/command-list-summary))))
 
 (defn command-help
   [options-summary command args]
-  (let [usage-file (io/resource "org/dpctl/help/command.txt")]
-    (logger/info (slurp usage-file) command options-summary (engine/command-options-summary command args))))
+  (let [command-options-summary (engine/command-options-summary command args)
+        usage-file (io/resource (if (empty? command-options-summary)
+                                  "org/dpctl/help/command-without-options.txt"
+                                  "org/dpctl/help/command-with-options.txt"))]
+    (logger/info (slurp usage-file) (engine/command-doc command args) command options-summary command-options-summary)))
 
 (defn -main
   [& args]

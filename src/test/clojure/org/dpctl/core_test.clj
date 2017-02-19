@@ -69,8 +69,13 @@
   (with-redefs-fn {#'engine/command-options-summary (fn [command args]
                                                       (is (= "command" command))
                                                       (is (= ["--name" "value"] args))
-                                                      "options summary")}
+                                                      "options summary")
+                   #'engine/command-doc (fn [command args]
+                                          (is (= "command" command))
+                                          (is (= ["--name" "value"] args))
+                                          "command doc")}
     #(let [s (with-out-str (core/command-help "summary" "command" ["--name" "value"]))]
+       (is (re-find #"command doc" s))
        (is (re-find #".*Usage: dpctl \[options\] command \[command-options\].*" s))
        (is (re-find #".*Options:\nsummary.*" s))
        (is (re-find #".*Command options:\noptions summary.*" s)))))

@@ -1,9 +1,11 @@
-DataPower Control (dpctl) is a management tool which can be used to introspect and update the configuration in the IBM DataPower devices.
+DataPower Control (dpctl) is a management tool which can be used to introspect and update the IBM DataPower configuration.
 
 Usage: dpctl [options] command [command-options]
 
 Options:
 %s
+
+Commands:
 
 %s
 

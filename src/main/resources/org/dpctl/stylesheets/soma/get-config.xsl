@@ -5,6 +5,7 @@
     xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
     xmlns:mgmt="http://www.datapower.com/schemas/management"
     xmlns:dpctl="http://www.dpctl.org/"
+    dpctl:category="SOMA"
     dpctl:doc="Get domain configuration"
     exclude-result-prefixes="xsl dpctl">
   <xsl:output method="xml" encoding="UTF-8" omit-xml-declaration="no" media-type="text/xml"/>

@@ -1,0 +1,8 @@
+%s
+
+Usage: dpctl [options] %s
+
+Options:
+%s
+
+Please refer to the manual page for more information: http://dpctl.org/manual
