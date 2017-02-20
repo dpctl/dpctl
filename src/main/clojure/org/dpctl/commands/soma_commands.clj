@@ -46,6 +46,8 @@
 
 (defsomacmd save-config "classpath:org/dpctl/stylesheets/soma/actions/save-config.xsl")
 
+(defsomacmd tcp-connection-test "classpath:org/dpctl/stylesheets/soma/actions/tcp-connection-test.xsl")
+
 (defsomacmd do-export "classpath:org/dpctl/stylesheets/soma/do-export.xsl")
 
 (defsomacmd do-import "classpath:org/dpctl/stylesheets/soma/do-import.xsl")
