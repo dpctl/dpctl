@@ -10,14 +10,13 @@
     exclude-result-prefixes="xsl dpctl">
   <xsl:output method="xml" encoding="UTF-8" omit-xml-declaration="no" media-type="text/xml"/>
 
-  <xsl:param name="domain" dpctl:doc="DataPower domain"/>
-  <xsl:param name="remote-host" dpctl:doc="Remote host"/>
+  <xsl:param name="remote-host" dpctl:doc="Remote host" dpctl:required="true"/>
   <xsl:param name="ip-version" dpctl:doc="IP version [-4|-6|default]" dpctl:default="default"/>
 
   <xsl:template match="/">
     <soap:Envelope>
       <soap:Body>
-        <mgmt:request domain="{$domain}">
+        <mgmt:request>
           <mgmt:do-action>
             <Ping>
               <RemoteHost><xsl:value-of select="$remote-host"/></RemoteHost>

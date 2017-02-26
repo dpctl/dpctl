@@ -10,7 +10,7 @@
         :cmd-desc-params {}
         :category "Core"} version
   "Prints version information"
-  [& {:keys [^{:doc "Print build date" :type "boolean" :short-option "b"} build-date]
+  [& {:keys [^{:doc "Print build date" :type "boolean" :short-option "b" :required false} build-date]
       :or {:build-date false}}]
   (let [res (.findResource (ClassLoader/getSystemClassLoader) "META-INF/MANIFEST.MF")]
     (if (some? res)

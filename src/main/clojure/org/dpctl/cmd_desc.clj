@@ -9,12 +9,17 @@
 (def common-soma-parameters #{"dp-mgmt-url" "dp-user-name" "dp-user-password" "domain" "ssl-trust-all-certificates" "ssl-valid-hostnames" "rq-output-file" "rs-output-file" "output-stylesheet" "output-format"})
 
 (defn cli-option
-  [name type short-option doc default]
+  [name type short-option doc default required]
   (-> []
       (conj (if (some? short-option) (str "-" short-option) nil))
       (conj (format "--%s%s" name (if (= type "boolean") "" " <val>")))
       (conj doc)
-      (conj :default default)))
+      (#(if (some? default)
+          (conj % :default default)
+          %))
+      (#(if (true? required)
+          (conj % :missing (format "Missing required option: --%s" name))
+          %))))
 
 (defn cli-options-from-metadata
   [m]
@@ -35,7 +40,8 @@
                         (:type am)
                         (:short-option am)
                         (:doc am)
-                        (get c an ((keyword an) defaults))))
+                        (get c an ((keyword an) defaults))
+                        (:required am)))
          keys)))
 
 (defn cli-options-from-stylesheet
@@ -48,7 +54,8 @@
                       (:type %)
                       (:short-option %)
                       (:doc %)
-                      (get c (:name %) (:default %)))
+                      (get c (:name %) (:default %))
+                      (= (:required %) "true"))
          (filter #(not (contains? common-soma-parameters (:name %))) p))))
 
 (defn metadata-desc

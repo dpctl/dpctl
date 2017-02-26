@@ -31,11 +31,14 @@
         param-nodes (get-parameter-nodes stylesheet-node)]
     (reduce
      #(let [sn (.getAttributeNode %2 "select")
+            f (fn [m name] (let [a (.getAttributeNodeNS %2 constants/dpctl-xml-namespace name)]
+                             (if (some? a) (assoc m (keyword name) (.getValue a)) m)))
             p (-> {}
                   (assoc :name (.getAttribute %2 "name"))
-                  (assoc :type (.getAttributeNS %2 constants/dpctl-xml-namespace "type"))
-                  (assoc :default (.getAttributeNS %2 constants/dpctl-xml-namespace "default"))
-                  (assoc :doc (.getAttributeNS %2 constants/dpctl-xml-namespace "doc")))]
+                  (f "type")
+                  (f "default")
+                  (f "doc")
+                  (f "required"))]
         (conj %1 p))
      [] param-nodes)))
 

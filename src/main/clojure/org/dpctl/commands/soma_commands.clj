@@ -5,9 +5,9 @@
 (defmacro defsomacmd
   [name stylesheet]
   `(defn ~(vary-meta name assoc :cmd-desc-fn desc/stylesheet-desc :cmd-desc-params {:stylesheet stylesheet})
-     [& {:keys [~(vary-meta `dp-mgmt-url assoc :doc "DataPower management url" :short-option "u")
-                ~(vary-meta `dp-user-name assoc :doc "DataPower user name" :short-option "n")
-                ~(vary-meta `dp-user-password assoc :doc "DataPower user password" :short-option "p")
+     [& {:keys [~(vary-meta `dp-mgmt-url assoc :doc "DataPower management url" :short-option "u" :required true)
+                ~(vary-meta `dp-user-name assoc :doc "DataPower user name" :short-option "n" :required true)
+                ~(vary-meta `dp-user-password assoc :doc "DataPower user password" :short-option "p" :required true)
                 ~(vary-meta `domain assoc :doc "DataPower domain" :short-option "d")
                 ~(vary-meta `ssl-trusted-certificates assoc :doc "Trusted SSL certificates (fingerprint regex)")
                 ~(vary-meta `ssl-valid-hostnames assoc :doc "Valid hostnames (hostname regex)")
