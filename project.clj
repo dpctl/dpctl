@@ -26,6 +26,8 @@
                                :sign-releases false
                                :username :env/CLOJARS_USERNAME
                                :password :env/CLOJARS_PASSWORD}]]
+  :manifest {:dpctl {"App-Version" ~(-> "project.clj" slurp read-string (nth 2))
+                     "App-Build-Date" ~(java.util.Date.)}}
   :profiles {:uberjar {:aot :all}
              :test {:resource-paths ["src/test/resources"]}}
   :plugins [[lein-bin "0.3.5"]
