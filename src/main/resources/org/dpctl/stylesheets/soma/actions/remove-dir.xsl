@@ -10,8 +10,8 @@
     exclude-result-prefixes="xsl dpctl">
   <xsl:output method="xml" encoding="UTF-8" omit-xml-declaration="no" media-type="text/xml"/>
 
-  <xsl:param name="domain" dpctl:doc="DataPower domain"/>
-  <xsl:param name="dir" dpctl:doc="Directory name"/>
+  <xsl:param name="domain" dpctl:doc="DataPower domain" dpctl:required="true"/>
+  <xsl:param name="dir" dpctl:doc="Directory name" dpctl:required="true"/>
 
   <xsl:template match="/">
     <soap:Envelope>

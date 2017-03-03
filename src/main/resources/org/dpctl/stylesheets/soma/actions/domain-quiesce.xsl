@@ -10,8 +10,8 @@
     exclude-result-prefixes="xsl dpctl">
   <xsl:output method="xml" encoding="UTF-8" omit-xml-declaration="no" media-type="text/xml"/>
 
-  <xsl:param name="domain" dpctl:doc="DataPower domain"/>
-  <xsl:param name="timeout" dpctl:doc="Length of time in seconds to wait for all transactions to complete"/>
+  <xsl:param name="domain" dpctl:doc="DataPower domain" dpctl:required="true"/>
+  <xsl:param name="timeout" dpctl:doc="Length of time in seconds to wait for all transactions to complete" dpctl:required="true"/>
   <xsl:param name="delay" dpctl:doc="Interval of time in seconds to wait before initiating the quiesce action"/>
 
   <xsl:template match="/">
@@ -22,7 +22,9 @@
             <DomainQuiesce>
               <name><xsl:value-of select="$domain"/></name>
               <timeout><xsl:value-of select="$timeout"/></timeout>
-              <delay><xsl:value-of select="$delay"/></delay>
+              <xsl:if test="$delay">
+                <delay><xsl:value-of select="$delay"/></delay>
+              </xsl:if>
             </DomainQuiesce>
           </mgmt:do-action>
         </mgmt:request>
