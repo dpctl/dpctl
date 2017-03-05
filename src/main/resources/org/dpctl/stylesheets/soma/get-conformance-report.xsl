@@ -10,10 +10,10 @@
     exclude-result-prefixes="xsl dpctl">
   <xsl:output method="xml" encoding="UTF-8" omit-xml-declaration="no" media-type="text/xml"/>
 
-  <xsl:param name="domain" dpctl:doc="DataPower domain"/>
-  <xsl:param name="class" dpctl:doc="Class" dpctl:default=""/>
-  <xsl:param name="name" dpctl:doc="Name" dpctl:default=""/>
-  <xsl:param name="profile" dpctl:doc="Profile" dpctl:default=""/>
+  <xsl:param name="domain" dpctl:doc="DataPower domain" dpctl:required="true"/>
+  <xsl:param name="class" dpctl:doc="Class"/>
+  <xsl:param name="name" dpctl:doc="Name"/>
+  <xsl:param name="profile" dpctl:doc="Profile"/>
 
   <xsl:template match="/">
     <soap:Envelope>
