@@ -1,6 +1,7 @@
 (ns org.dpctl.commands.soma-commands
   (:require [org.dpctl.cmd-desc :as desc]
-            [org.dpctl.util.soma :as soma]))
+            [org.dpctl.util.soma :as soma]
+            [org.dpctl.util.io :as io-util]))
 
 (defmacro defsomacmd
   [name stylesheet]
