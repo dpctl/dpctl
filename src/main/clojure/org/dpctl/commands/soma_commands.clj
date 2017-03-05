@@ -52,6 +52,8 @@
 
 (defsomacmd do-import "classpath:org/dpctl/stylesheets/soma/do-import.xsl")
 
+(defsomacmd do-view-certificate-details "classpath:org/dpctl/stylesheets/soma/do-view-certificate-details.xsl")
+
 (defsomacmd get-config "classpath:org/dpctl/stylesheets/soma/get-config.xsl")
 
 (defsomacmd get-conformance-report "classpath:org/dpctl/stylesheets/soma/get-conformance-report.xsl")
