@@ -6,12 +6,12 @@
     xmlns:mgmt="http://www.datapower.com/schemas/management"
     xmlns:dpctl="http://www.dpctl.org/"
     dpctl:category="SOMA"
-    dpctl:doc="Get config"
+    dpctl:doc="Get filestore snapshot"
     exclude-result-prefixes="xsl dpctl">
   <xsl:output method="xml" encoding="UTF-8" omit-xml-declaration="no" media-type="text/xml"/>
 
-  <xsl:param name="domain" dpctl:doc="DataPower domain"/>
-  <xsl:param name="location" dpctl:doc="Location"/>
+  <xsl:param name="domain" dpctl:doc="DataPower domain" dpctl:required="true"/>
+  <xsl:param name="location" dpctl:doc="Location [local:|store:|cert:|...]"/>
   <xsl:param name="annotated" dpctl:doc="Annotated [true|false]"/>
   <xsl:param name="layout-only" dpctl:doc="Layout only [true|false]"/>
   <xsl:param name="no-subdirectories" dpctl:doc="No subdirectories [true|false]"/>
