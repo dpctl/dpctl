@@ -64,6 +64,8 @@
 
 (defsomacmd get-filestore "classpath:org/dpctl/stylesheets/soma/get-filestore.xsl")
 
+(defsomacmd get-log "classpath:org/dpctl/stylesheets/soma/get-log.xsl")
+
 (defsomacmd get-status "classpath:org/dpctl/stylesheets/soma/get-status.xsl")
 
 (defsomacmd set-file "classpath:org/dpctl/stylesheets/soma/set-file.xsl")
