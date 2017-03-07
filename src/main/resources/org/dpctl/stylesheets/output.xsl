@@ -5,14 +5,16 @@
     xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
     xmlns:xslt="http://xml.apache.org/xslt"
     xmlns:mgmt="http://www.datapower.com/schemas/management"
-    exclude-result-prefixes="soap xslt">
+    xmlns:java="http://xml.apache.org/xslt/java"
+    exclude-result-prefixes="soap xslt java">
   <xsl:output method="xml" encoding="UTF-8" omit-xml-declaration="yes" media-type="text/xml" indent="yes" xslt:indent-amount="2"/>
   <xsl:param name="output-format" select="'txt'"/>
-  <xsl:param name="export-output-file"/>
+  <xsl:param name="file"/>
 
   <xsl:strip-space elements="*"/>
 
   <xsl:variable name="new-line" select="'&#x0A;'"/>
+  <xsl:variable name="save-data-to-file-fn" select="java:clojure.java.api.Clojure.var('org.dpctl.util.io','save-data-to-file')"/>
 
   <xsl:template match="/soap:Envelope/soap:Body">
     <xsl:choose>
@@ -32,7 +34,8 @@
   <xsl:template match="mgmt:response/mgmt:file" mode="dpctl-text-output">
     <xsl:param name="indent" select="''"/>
 
-    <xsl:value-of select="concat($new-line,$indent,local-name(),': ',$export-output-file)"/>
+    <xsl:value-of select="concat($new-line,$indent,local-name(),': ',$file)"/>
+    <xsl:value-of select="java:invoke($save-data-to-file-fn,$file,string(.),true())"/>
   </xsl:template>
 
   <xsl:template match="node()" mode="dpctl-text-output">
