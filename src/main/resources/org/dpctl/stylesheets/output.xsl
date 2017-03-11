@@ -34,8 +34,12 @@
   <xsl:template match="mgmt:response/mgmt:file" mode="dpctl-text-output">
     <xsl:param name="indent" select="''"/>
 
-    <xsl:value-of select="concat($new-line,$indent,local-name(),': ',$file)"/>
-    <xsl:value-of select="java:invoke($save-data-to-file-fn,$file,string(.),true())"/>
+    <xsl:choose>
+      <xsl:when test="$file">
+        <xsl:value-of select="concat($new-line,$indent,local-name(),': ',$file)"/>
+        <xsl:value-of select="java:invoke($save-data-to-file-fn,$file,string(.),true())"/>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="node()" mode="dpctl-text-output">

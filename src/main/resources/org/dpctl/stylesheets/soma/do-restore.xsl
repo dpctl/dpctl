@@ -14,7 +14,7 @@
   <xsl:param name="domain" dpctl:doc="DataPower domain" dpctl:required="true"/>
   <xsl:param name="import-domain" dpctl:doc="Import domain [true|false]"/>
   <xsl:param name="reset-domain" dpctl:doc="Reset domain [true|false]"/>
-  <xsl:param name="source-type" dpctl:doc="Source type [ZIP|XML]"/>
+  <xsl:param name="format" dpctl:doc="Export format [ZIP|XML]" dpctl:required="true"/>
   <xsl:param name="dry-run" dpctl:doc="Dry run [true|false]"/>
   <xsl:param name="overwrite-files" dpctl:doc="Overwrite files [true|false]"/>
   <xsl:param name="overwrite-objects" dpctl:doc="Overwrite objects [true|false]"/>
@@ -32,8 +32,8 @@
       <soap:Body>
         <mgmt:request>
           <mgmt:do-restore>
-            <xsl:if test="$source-type">
-              <xsl:attribute name="source-type"><xsl:value-of select="$source-type"/></xsl:attribute>
+            <xsl:if test="$format">
+              <xsl:attribute name="source-type"><xsl:value-of select="$format"/></xsl:attribute>
             </xsl:if>
             <xsl:if test="$dry-run">
               <xsl:attribute name="dry-run"><xsl:value-of select="$dry-run"/></xsl:attribute>

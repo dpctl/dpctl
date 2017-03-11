@@ -12,7 +12,7 @@
 
   <xsl:param name="domain" dpctl:doc="DataPower domain" dpctl:required="true"/>
   <xsl:param name="user-comment" dpctl:doc="User comment"/>
-  <xsl:param name="format" dpctl:doc="Export format [ZIP|XML]"/>
+  <xsl:param name="format" dpctl:doc="Export format [ZIP|XML]" dpctl:required="true"/>
   <xsl:param name="persisted" dpctl:doc="Persisted [true|false]"/>
   <xsl:param name="deployment-policy" dpctl:doc="Deployment policy"/>
   <xsl:param name="deployment-policy-file" dpctl:doc="Deployment policy file"/>
