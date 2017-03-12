@@ -1,4 +1,4 @@
-(defproject org.dpctl/dpctl "0.2.2"
+(defproject org.dpctl/dpctl "0.2.3-SNAPSHOT"
   :description "DataPower Control Tool"
   :url "http://dpctl.org"
   :scm {:name "git"
