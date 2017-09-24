@@ -47,6 +47,10 @@
 
 (defsomacmd save-config "classpath:org/dpctl/stylesheets/soma/actions/save-config.xsl")
 
+(defsomacmd secure-backup "classpath:org/dpctl/stylesheets/soma/actions/secure-backup.xsl")
+
+(defsomacmd secure-restore "classpath:org/dpctl/stylesheets/soma/actions/secure-restore.xsl")
+
 (defsomacmd tcp-connection-test "classpath:org/dpctl/stylesheets/soma/actions/tcp-connection-test.xsl")
 
 (defsomacmd do-backup "classpath:org/dpctl/stylesheets/soma/do-backup.xsl")
