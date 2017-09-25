@@ -19,6 +19,8 @@
          :as all#}]
      (apply soma/execute ~stylesheet (interleave (keys all#) (vals all#)))))
 
+(defsomacmd create-dir "classpath:org/dpctl/stylesheets/soma/actions/create-dir.xsl")
+
 (defsomacmd domain-quiesce "classpath:org/dpctl/stylesheets/soma/actions/domain-quiesce.xsl")
 
 (defsomacmd domain-unquiesce "classpath:org/dpctl/stylesheets/soma/actions/domain-unquiesce.xsl")
