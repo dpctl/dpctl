@@ -25,6 +25,7 @@
              ^{:doc "Response output file"} rs-output-file
              ^{:doc "Output stylesheet"} output-stylesheet
              ^{:doc "Output format [txt|xml|raw]"} output-format
+             ^{:doc "Error check string (regex)"} error-check
              ^{:doc "Pull only persisted objects [true|false]"} persisted
              ^{:doc "Local source directory"} src-dir
              ^{:doc "Include objects matching pattern (regex)"} include-objects
@@ -55,6 +56,7 @@
              ^{:doc "Response output file"} rs-output-file
              ^{:doc "Output stylesheet"} output-stylesheet
              ^{:doc "Output format [txt|xml|raw]"} output-format
+             ^{:doc "Error check string (regex)"} error-check
              ^{:doc "Local source directory"} src-dir
              ^{:doc "DataPower configuration version"} dp-configuration-version
              ^{:doc "Include objects matching pattern (regex)"} include-objects
