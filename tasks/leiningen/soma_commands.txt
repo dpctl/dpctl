@@ -15,6 +15,7 @@
                 ~(vary-meta `rq-output-file assoc :doc "Request output file")
                 ~(vary-meta `rs-output-file assoc :doc "Response output file")
                 ~(vary-meta `output-stylesheet assoc :doc "Output stylesheet")
-                ~(vary-meta `output-format assoc :doc "Output format [txt|xml|raw]")]
+                ~(vary-meta `output-format assoc :doc "Output format [txt|xml|raw]")
+                ~(vary-meta `error-check assoc :doc "Error check string (regex)")]
          :as all#}]
      (apply soma/execute ~stylesheet (interleave (keys all#) (vals all#)))))

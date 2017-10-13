@@ -85,7 +85,8 @@
                         rq-output-file
                         rs-output-file
                         output-stylesheet
-                        output-format]
+                        output-format
+                        error-check]
                  :as all}]
   (ssl/init-https-connection ssl-trusted-certificates ssl-valid-hostnames)
 
@@ -105,4 +106,7 @@
               rs-input-stream (new ByteArrayInputStream rs-data)]
           (set-transform-parameters rs-transformer all)
           (.transform rs-transformer (xml/new-stream-source rs-input-stream) (xml/new-stream-result *out*))))
+		  
+      (when (re-find (re-pattern error-check) (new String rs-data))
+        (throw (Exception. "error-check failed")))
       rs-data)))

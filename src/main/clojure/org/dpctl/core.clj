@@ -8,6 +8,8 @@
             [org.dpctl.cmd-engine :as engine])
   (:import (java.util Properties))
   (:gen-class))
+  
+(def exit-code (atom 0))
 
 (def cli-options
   [["-c" "--config <file>" "Configuration file"
@@ -20,6 +22,10 @@
     :parse-fn keyword
     :validate [#((keyword %) logger/log-levels-set) (format "Accepted log levels: %s" (str/join ", " (map name logger/log-levels)))]]
    ["-h" "--help" "Lists all command line options with a short description"]])
+
+(defn exit
+  []
+  (System/exit @exit-code))
 
 (defn configure-trace
   []
@@ -107,5 +113,9 @@
           (empty? arguments) (main-help summary)
           (:help options) (command-help summary (first arguments) (rest arguments))
           :else (engine/execute (first arguments) (rest arguments))))
-      (catch Exception exception (logger/error-exception exception))
-      (finally (logger/debug "Execution time: %.3f sec" (/ (double (- (System/nanoTime) start-time)) 1000000000.0))))))
+      (catch Exception exception 
+        (when (not (= "error-check failed" (.getMessage exception)))
+          (logger/error-exception exception))
+		(reset! exit-code 1))
+      (finally (logger/debug "Execution time: %.3f sec" (/ (double (- (System/nanoTime) start-time)) 1000000000.0)))))
+  (exit))
