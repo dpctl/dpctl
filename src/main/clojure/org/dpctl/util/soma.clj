@@ -106,7 +106,8 @@
               rs-input-stream (new ByteArrayInputStream rs-data)]
           (set-transform-parameters rs-transformer all)
           (.transform rs-transformer (xml/new-stream-source rs-input-stream) (xml/new-stream-result *out*))))
-		  
-      (when (re-find (re-pattern error-check) (new String rs-data))
-        (throw (Exception. "error-check failed")))
+
+      (when (and (not (empty? error-check))
+                 (re-find (re-pattern error-check) (new String rs-data)))
+        (throw (ex-info nil {:debug ["Response Error"]})))
       rs-data)))

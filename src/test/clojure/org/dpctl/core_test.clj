@@ -10,11 +10,22 @@
 
 (use-fixtures :each
   (fn [f]
-    (let [l (logger/get-log-level)
+    (let [e (core/get-exit-code)
+          l (logger/get-log-level)
           c (config/get-config)]
       (f)
+      (core/set-exit-code e)
       (config/set-config c)
       (logger/set-log-level l))))
+
+(deftest test-default-exit-code
+  (is (= 0 (core/get-exit-code))))
+
+(deftest test-set-exit-code
+  (is (= 10 (core/set-exit-code 10)))
+  (is (= 1 (core/set-exit-code "Default exit code for errors")))
+  (is (= 1 (core/set-exit-code (ex-info "message" {:error ["error"]}))))
+  (is (= 2 (core/set-exit-code (ex-info nil {:debug ["Response Error"]})))))
 
 (deftest test-invalid-option
   (with-redefs-fn {#'core/exit (fn [])}
@@ -27,19 +38,19 @@
 (deftest test-log-level-option
   (with-redefs-fn {#'core/exit (fn [])}
     #(do (with-out-str (core/-main))
-      (is (= :info (logger/get-log-level)))
+         (is (= :info (logger/get-log-level)))
 
-      (with-out-str (core/-main "--log-level" "debug"))
-      (is (= :debug (logger/get-log-level)))
+         (with-out-str (core/-main "--log-level" "debug"))
+         (is (= :debug (logger/get-log-level)))
 
-      (with-out-str (core/-main "--log-level" "invalid"))
-      (is (= :info (logger/get-log-level)))
+         (with-out-str (core/-main "--log-level" "invalid"))
+         (is (= :info (logger/get-log-level)))
 
-      (with-out-str (core/-main "--invalid-arg" "value" "--log-level" "debug"))
-      (is (= :info (logger/get-log-level)))
+         (with-out-str (core/-main "--invalid-arg" "value" "--log-level" "debug"))
+         (is (= :info (logger/get-log-level)))
 
-      (with-out-str (core/-main "--log-level" "debug" "--invalid-arg" "value"))
-      (is (= :debug (logger/get-log-level))))))
+         (with-out-str (core/-main "--log-level" "debug" "--invalid-arg" "value"))
+         (is (= :debug (logger/get-log-level))))))
 
 (deftest test-main-help-option
   (with-redefs-fn {#'core/main-help (fn [options-summary] (logger/info "dpctl help"))
@@ -58,7 +69,7 @@
   (with-redefs-fn {#'core/set-config-properties (fn [files] (is (= [] files)))
                    #'core/exit (fn [])}
     #(do (with-out-str (core/-main))
-      (with-out-str (core/-main "command"))))
+         (with-out-str (core/-main "command"))))
   (with-redefs-fn {#'core/set-config-properties (fn [files] (is (= [f1 f2] files)))
                    #'core/exit (fn [])}
     #(with-out-str (core/-main "--config" f1 "--config" f2 "command"))))
@@ -66,8 +77,8 @@
 (deftest test-main-help
   (with-redefs-fn {#'core/exit (fn [])}
     #(let [s (with-out-str (core/main-help "summary"))]
-      (is (re-find #".*Usage: dpctl \[options\] command \[command-options\].*" s))
-      (is (re-find #".*Options:\nsummary.*" s)))))
+       (is (re-find #".*Usage: dpctl \[options\] command \[command-options\].*" s))
+       (is (re-find #".*Options:\nsummary.*" s)))))
 
 (deftest test-command-help
   (with-redefs-fn {#'engine/command-options-summary (fn [command args]
@@ -88,20 +99,20 @@
 (deftest test-set-config-properties
   (with-redefs-fn {#'core/exit (fn [])}
     #(do (core/set-config-properties nil)
-      (let [properties (config/get-config)]
-        (is (= "src" (properties "src-dir")))
-        (is (nil? (properties "undefined"))))
+         (let [properties (config/get-config)]
+           (is (= "src" (properties "src-dir")))
+           (is (nil? (properties "undefined"))))
 
-      (core/set-config-properties [])
-      (let [properties (config/get-config)]
-        (is (= "src" (properties "src-dir")))
-        (is (nil? (properties "undefined"))))
+         (core/set-config-properties [])
+         (let [properties (config/get-config)]
+           (is (= "src" (properties "src-dir")))
+           (is (nil? (properties "undefined"))))
 
-      (core/set-config-properties [f1 f2])
-      (let [properties (config/get-config)]
-        (is (= "override2" (properties "src-dir")))
-        (is (= "override1" (properties "temp-dir")))
-        (is (nil? (properties "undefined")))))))
+         (core/set-config-properties [f1 f2])
+         (let [properties (config/get-config)]
+           (is (= "override2" (properties "src-dir")))
+           (is (= "override1" (properties "temp-dir")))
+           (is (nil? (properties "undefined")))))))
 
 (deftest test-set-config-properties-error
   (with-redefs-fn {#'core/exit (fn [])}

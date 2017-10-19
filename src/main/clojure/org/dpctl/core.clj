@@ -6,9 +6,10 @@
             [org.dpctl.logger :as logger]
             [org.dpctl.config :as config]
             [org.dpctl.cmd-engine :as engine])
-  (:import (java.util Properties))
+  (:import (java.util Properties)
+           (clojure.lang ExceptionInfo))
   (:gen-class))
-  
+
 (def exit-code (atom 0))
 
 (def cli-options
@@ -22,6 +23,20 @@
     :parse-fn keyword
     :validate [#((keyword %) logger/log-levels-set) (format "Accepted log levels: %s" (str/join ", " (map name logger/log-levels)))]]
    ["-h" "--help" "Lists all command line options with a short description"]])
+
+(defn get-exit-code
+  "Get exit code"
+  []
+  @exit-code)
+
+(defn set-exit-code
+  "Set exit code"
+  [val]
+  (cond
+    (integer? val) (reset! exit-code val)
+    (and (instance? ExceptionInfo val)
+         (= (ex-data val) {:debug ["Response Error"]})) (reset! exit-code 2)
+    :else (reset! exit-code 1)))
 
 (defn exit
   []
@@ -113,9 +128,8 @@
           (empty? arguments) (main-help summary)
           (:help options) (command-help summary (first arguments) (rest arguments))
           :else (engine/execute (first arguments) (rest arguments))))
-      (catch Exception exception 
-        (when (not (= "error-check failed" (.getMessage exception)))
-          (logger/error-exception exception))
-		(reset! exit-code 1))
+      (catch Exception exception
+        (logger/error-exception exception)
+        (set-exit-code exception))
       (finally (logger/debug "Execution time: %.3f sec" (/ (double (- (System/nanoTime) start-time)) 1000000000.0)))))
   (exit))
