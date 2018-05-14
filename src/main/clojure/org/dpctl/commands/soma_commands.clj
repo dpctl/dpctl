@@ -10,6 +10,8 @@
                 ~(vary-meta `dp-user-name assoc :doc "DataPower user name" :short-option "n" :required true)
                 ~(vary-meta `dp-user-password assoc :doc "DataPower user password" :short-option "p" :required true)
                 ~(vary-meta `domain assoc :doc "DataPower domain" :short-option "d")
+                ~(vary-meta `http-connect-timeout assoc :doc "HTTP connect timeout" :short-options "c")
+                ~(vary-meta `http-read-timeout assoc :doc "HTTP read timeout" :short-options "r")
                 ~(vary-meta `ssl-trusted-certificates assoc :doc "Trusted SSL certificates (fingerprint regex)")
                 ~(vary-meta `ssl-valid-hostnames assoc :doc "Valid hostnames (hostname regex)")
                 ~(vary-meta `rq-output-file assoc :doc "Request output file")
