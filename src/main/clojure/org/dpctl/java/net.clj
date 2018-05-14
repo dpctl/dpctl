@@ -14,7 +14,7 @@
 
 (defn http-post
   "Posts a request file to "
-  [url username password rq-data]
+  [url username password connect-timeout read-timeout rq-data]
   (let [start-time (System/nanoTime)
         connection (.openConnection (new URL url))]
     (.setRequestMethod connection constants/http-method-post)
@@ -22,6 +22,8 @@
     (.setUseCaches connection false)
     (.setDoOutput connection true)
     (.setDoInput connection true)
+    (.setConnectTimeout connection (read-string connect-timeout))
+    (.setReadTimeout connection (read-string read-timeout))
     (.setRequestProperty connection "Authorization" (authorization-header username password))
     (.connect connection)
     (let [output (.getOutputStream connection)]

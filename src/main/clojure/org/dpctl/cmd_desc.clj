@@ -6,7 +6,7 @@
             [org.dpctl.java.xml :as xml]
             [org.dpctl.util.soma :as soma]))
 
-(def common-soma-parameters #{"dp-mgmt-url" "dp-user-name" "dp-user-password" "domain" "ssl-trust-all-certificates" "ssl-valid-hostnames" "rq-output-file" "rs-output-file" "output-stylesheet" "output-format" "error-check"})
+(def common-soma-parameters #{"dp-mgmt-url" "dp-user-name" "dp-user-password" "domain" "http-read-timeout" "http-connect-timeout" "ssl-trust-all-certificates" "ssl-valid-hostnames" "rq-output-file" "rs-output-file" "output-stylesheet" "output-format" "error-check"})
 
 (defn cli-option
   [name type short-option doc default required]

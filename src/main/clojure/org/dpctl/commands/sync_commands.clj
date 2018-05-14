@@ -19,6 +19,8 @@
              ^{:doc "DataPower user name" :short-option "n"} dp-user-name
              ^{:doc "DataPower user password" :short-option "p"} dp-user-password
              ^{:doc "DataPower domain" :short-option "d"} domain
+             ^{:doc "HTTP connect timeout" :short-option "c"} http-connect-timeout
+             ^{:doc "HTTP read timeout" :short-option "r"} http-read-timeout
              ^{:doc "Trusted SSL certificates (fingerprint regex)"} ssl-trusted-certificates
              ^{:doc "Valid hostnames (hostname regex)"} ssl-valid-hostnames
              ^{:doc "Request output file"} rq-output-file
@@ -50,6 +52,8 @@
              ^{:doc "DataPower user name" :short-option "n"} dp-user-name
              ^{:doc "DataPower user password" :short-option "p"} dp-user-password
              ^{:doc "DataPower domain" :short-option "d"} domain
+             ^{:doc "HTTP connect timeout" :short-option "c"} http-connect-timeout
+             ^{:doc "HTTP read timeout" :short-option "r"} http-read-timeout
              ^{:doc "Trusted SSL certificates (fingerprint regex)"} ssl-trusted-certificates
              ^{:doc "Valid hostnames (hostname regex)"} ssl-valid-hostnames
              ^{:doc "Request output file"} rq-output-file

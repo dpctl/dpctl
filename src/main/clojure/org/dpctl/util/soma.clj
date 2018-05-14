@@ -80,6 +80,8 @@
                         dp-user-name
                         dp-user-password
                         domain
+                        http-connect-timeout
+                        http-read-timeout
                         ssl-trusted-certificates
                         ssl-valid-hostnames
                         rq-output-file
@@ -97,7 +99,7 @@
 
     (write-to-file rq-output-file (.toByteArray rq-output-stream))
 
-    (let [rs-data (net/http-post dp-mgmt-url dp-user-name dp-user-password (.toByteArray rq-output-stream))]
+    (let [rs-data (net/http-post dp-mgmt-url dp-user-name dp-user-password http-connect-timeout http-read-timeout (.toByteArray rq-output-stream))]
 
       (write-to-file rs-output-file rs-data)
 
